@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
@@ -9,7 +8,6 @@ import {
   FileJson,
   CheckCircle,
   AlertCircle,
-  X,
   Download,
 } from "lucide-react";
 import Link from "next/link";
@@ -56,10 +54,8 @@ interface ParseResult {
 
 export default function ImportExercisesPage() {
   const { user } = useAuth();
-  const router = useRouter();
   const [dragging, setDragging] = useState(false);
   const [parseResult, setParseResult] = useState<ParseResult | null>(null);
-  const [rawData, setRawData] = useState<Record<string, unknown>[]>([]);
   const [mode, setMode] = useState<"add" | "replace">("add");
   const [importing, setImporting] = useState(false);
   const [step, setStep] = useState<"upload" | "preview" | "done">("upload");
@@ -76,8 +72,6 @@ export default function ImportExercisesPage() {
       toast.error("Arquivo JSON inválido — verifique a sintaxe do arquivo");
       return;
     }
-
-    setRawData(arr);
 
     // Step 2: fetch existing exercises (non-fatal)
     let existingNames = new Set<string>();

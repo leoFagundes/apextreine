@@ -7,7 +7,6 @@ import {
   Plus,
   Search,
   Upload,
-  Filter,
   Dumbbell,
   ChevronRight,
   Trash2,

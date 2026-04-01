@@ -38,7 +38,6 @@ type FormData = z.infer<typeof schema>;
 
 export default function EditExercisePage() {
   const { id } = useParams<{ id: string }>();
-  const { user } = useAuth();
   const router = useRouter();
 
   const { register, handleSubmit, control, reset, formState: { isSubmitting } } = useForm<FormData>({

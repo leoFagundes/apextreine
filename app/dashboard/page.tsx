@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import {
-  Flame, Zap, Dumbbell, Clock, TrendingUp, Plus,
-  Play, Trophy, Target, Calendar, ChevronRight, BarChart2
+  Flame, Dumbbell, Clock, Plus,
+  Play, Trophy, Target, ChevronRight
 } from 'lucide-react';
 import { useAuth } from '@/store/AuthContext';
 import { getUserWorkouts } from '@/services/workouts';
