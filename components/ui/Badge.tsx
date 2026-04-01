@@ -31,9 +31,9 @@ export function Badge({ children, variant = 'zinc', size = 'sm', className }: Ba
 }
 
 export function LevelBadge({ level, xp }: { level: number; xp: number }) {
-  const color = level >= 8 ? 'yellow' : level >= 5 ? 'purple' : level >= 3 ? 'blue' : 'zinc';
+  const color: BadgeProps['variant'] = level >= 8 ? 'yellow' : level >= 5 ? 'purple' : level >= 3 ? 'blue' : 'zinc';
   return (
-    <Badge variant={color as any}>
+    <Badge variant={color}>
       ⚡ Nível {level} · {xp} XP
     </Badge>
   );
@@ -41,9 +41,9 @@ export function LevelBadge({ level, xp }: { level: number; xp: number }) {
 
 export function StreakBadge({ streak }: { streak: number }) {
   if (streak === 0) return null;
-  const color = streak >= 30 ? 'yellow' : streak >= 7 ? 'orange' : 'zinc';
+  const color: BadgeProps['variant'] = streak >= 30 ? 'yellow' : streak >= 7 ? 'orange' : 'zinc';
   return (
-    <Badge variant={color as any}>
+    <Badge variant={color}>
       🔥 {streak} dias
     </Badge>
   );

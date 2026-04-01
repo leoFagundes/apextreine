@@ -52,7 +52,7 @@ export default function EditExercisePage() {
       const d = snap.data();
       reset({ ...d, tags: d.tags?.join(', ') ?? '' });
     });
-  }, [id]);
+  }, [id, reset, router]);
 
   async function onSubmit(data: FormData) {
     if (!id) return;

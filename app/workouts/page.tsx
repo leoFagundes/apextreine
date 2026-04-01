@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { Plus, Play, Copy, Trash2, Clock, Dumbbell, Heart, Edit, Globe, Lock } from 'lucide-react';
 import { useAuth } from '@/store/AuthContext';
 import { getUserWorkouts, deleteWorkout, copyWorkout } from '@/services/workouts';
-import { Workout } from '@/types';
+import { Workout, DayOfWeek } from '@/types';
 import { cn, formatMinutes, DAYS_PT } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
@@ -59,7 +59,7 @@ function WorkoutCard({ workout, onDelete, onCopy }: { workout: Workout; onDelete
       {workout.daysOfWeek && workout.daysOfWeek.length > 0 && (
         <div className="flex gap-1">
           {['monday','tuesday','wednesday','thursday','friday','saturday','sunday'].map(day => {
-            const active = workout.daysOfWeek?.includes(day as any);
+            const active = workout.daysOfWeek?.includes(day as DayOfWeek);
             return (
               <div key={day} className={cn('w-7 h-7 rounded-lg text-[10px] font-semibold flex items-center justify-center',
                 active ? 'bg-orange-500/20 text-orange-400' : 'bg-zinc-800 text-zinc-600'

@@ -10,7 +10,6 @@ import {
   ArrowLeft,
   Plus,
   Trash2,
-  GripVertical,
   Search,
   Save,
   X,
@@ -88,7 +87,7 @@ function WorkoutExerciseItem({
     if (item.sets.length <= 1) return;
     onUpdate({ ...item, sets: item.sets.filter((_, i) => i !== idx) });
   }
-  function updateSet(idx: number, field: keyof WorkoutSet, val: any) {
+  function updateSet<F extends keyof WorkoutSet>(idx: number, field: F, val: WorkoutSet[F]) {
     const sets = item.sets.map((s, i) =>
       i === idx ? { ...s, [field]: val } : s,
     );
@@ -319,9 +318,9 @@ export default function NewWorkoutPage() {
       });
       toast.success("Treino criado! 🔥");
       router.push("/workouts");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      toast.error(`Erro: ${err?.message ?? "Falha ao salvar treino"}`);
+      toast.error(`Erro: ${err instanceof Error ? err.message : "Falha ao salvar treino"}`);
     }
   }
 
@@ -466,7 +465,7 @@ export default function NewWorkoutPage() {
                 Nenhum exercício adicionado
               </p>
               <p className="text-zinc-600 text-xs mt-1">
-                Clique em "Adicionar" para incluir exercícios
+                Clique em &quot;Adicionar&quot; para incluir exercícios
               </p>
             </div>
           ) : (

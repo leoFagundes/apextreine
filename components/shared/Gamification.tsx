@@ -1,8 +1,8 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Star, Trophy } from 'lucide-react';
-import { getLevelFromXp, LEVEL_NAMES } from '@/lib/utils';
+import { Zap, Trophy } from 'lucide-react';
+import { LEVEL_NAMES } from '@/lib/utils';
 
 interface XpGainProps {
   xp: number;
