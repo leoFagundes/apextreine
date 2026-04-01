@@ -16,7 +16,15 @@ import { cn, formatMinutes, getLevelFromXp, LEVEL_NAMES } from '@/lib/utils';
 import { format, subDays, isSameDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-function StatCard({ icon: Icon, label, value, sub, color = 'orange', delay = 0 }: any) {
+interface StatCardProps {
+  icon: React.ElementType<{ size?: number; className?: string }>;
+  label: string;
+  value: string | number;
+  sub?: string;
+  color?: string;
+  delay?: number;
+}
+function StatCard({ icon: Icon, label, value, sub, color = 'orange', delay = 0 }: StatCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

@@ -10,6 +10,7 @@ import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/store/AuthContext';
 import { updateExercise } from '@/services/exercises';
+import { Equipment } from '@/types';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import { EXERCISE_CATEGORIES, MUSCLE_GROUPS, EQUIPMENT_LABELS, cn } from '@/lib/utils';
@@ -58,7 +59,7 @@ export default function EditExercisePage() {
     if (!id) return;
     try {
       const tags = data.tags ? data.tags.split(',').map(t => t.trim()).filter(Boolean) : [];
-      await updateExercise(id as string, { ...data, tags, equipment: data.equipment as any[] ?? [], embedCode: data.embedCode || undefined });
+      await updateExercise(id as string, { ...data, tags, equipment: (data.equipment ?? []) as Equipment[], embedCode: data.embedCode || undefined });
       toast.success('Exercício atualizado!');
       router.push('/exercises');
     } catch {

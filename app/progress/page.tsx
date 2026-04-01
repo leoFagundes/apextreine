@@ -13,12 +13,14 @@ import { ptBR } from 'date-fns/locale';
 import { Scale, Ruler, TrendingUp, Dumbbell, Clock, Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-const ChartTooltip = ({ active, payload, label }: any) => {
+interface TooltipPayloadEntry { name: string; value: number | string; color: string; }
+interface ChartTooltipProps { active?: boolean; payload?: TooltipPayloadEntry[]; label?: string; }
+const ChartTooltip = ({ active, payload, label }: ChartTooltipProps) => {
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-xs">
       <p className="text-zinc-400 mb-1">{label}</p>
-      {payload.map((p: any) => (
+      {payload.map((p) => (
         <p key={p.name} className="font-semibold" style={{ color: p.color }}>{p.value} {p.name}</p>
       ))}
     </div>
@@ -29,7 +31,6 @@ export default function ProgressPage() {
   const { user } = useAuth();
   const [sessions, setSessions] = useState<WorkoutSession[]>([]);
   const [metrics, setMetrics] = useState<BodyMetric[]>([]);
-  const [loading, setLoading] = useState(true);
   const [showMetricForm, setShowMetricForm] = useState(false);
   const [metricForm, setMetricForm] = useState({ weight: '', bodyFat: '', waist: '' });
 
@@ -38,7 +39,6 @@ export default function ProgressPage() {
     Promise.all([getUserSessions(user.uid, 50), getUserMetrics(user.uid)]).then(([s, m]) => {
       setSessions(s);
       setMetrics(m);
-      setLoading(false);
     });
   }, [user]);
 

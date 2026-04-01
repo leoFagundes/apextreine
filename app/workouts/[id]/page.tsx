@@ -6,7 +6,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion, AnimatePresence, Reorder } from 'framer-motion';
-import { ArrowLeft, Plus, Trash2, GripVertical, Search, Save, X, ChevronDown, Play } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, GripVertical, Search, Save, X, Play } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/store/AuthContext';
 import { getWorkoutById, updateWorkout } from '@/services/workouts';
@@ -38,7 +38,7 @@ export default function EditWorkoutPage() {
   const [exSearch, setExSearch] = useState('');
   const [loading, setLoading] = useState(true);
 
-  const { register, handleSubmit, control, reset, formState: { errors, isSubmitting } } = useForm<FormData>({
+  const { register, handleSubmit, control, reset, formState: { isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
@@ -52,6 +52,7 @@ export default function EditWorkoutPage() {
       setAllExercises(exs);
       setLoading(false);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, id]);
 
   function addExercise(ex: Exercise) {

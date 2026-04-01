@@ -217,7 +217,7 @@ export default function ProfilePage() {
             ].map(({ key, label, placeholder, unit }) => (
               <div key={key}>
                 <label className="label">{label} ({unit})</label>
-                <input type="number" value={(form as any)[key]}
+                <input type="number" value={form[key as keyof typeof form]}
                   onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
                   className="input" placeholder={placeholder} />
               </div>

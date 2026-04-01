@@ -9,6 +9,7 @@ import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/store/AuthContext';
 import { createExercise } from '@/services/exercises';
+import { Equipment } from '@/types';
 import { EXERCISE_CATEGORIES, MUSCLE_GROUPS, EQUIPMENT_LABELS, cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
@@ -56,7 +57,7 @@ export default function NewExercisePage() {
       await createExercise(user.uid, {
         ...data,
         tags,
-        equipment: data.equipment as any[] ?? [],
+        equipment: (data.equipment ?? []) as Equipment[],
         secondaryMuscles: [],
         embedCode: data.embedCode || undefined,
       });

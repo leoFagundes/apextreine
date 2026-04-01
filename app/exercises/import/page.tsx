@@ -59,7 +59,7 @@ export default function ImportExercisesPage() {
   const router = useRouter();
   const [dragging, setDragging] = useState(false);
   const [parseResult, setParseResult] = useState<ParseResult | null>(null);
-  const [rawData, setRawData] = useState<any[]>([]);
+  const [rawData, setRawData] = useState<Record<string, unknown>[]>([]);
   const [mode, setMode] = useState<"add" | "replace">("add");
   const [importing, setImporting] = useState(false);
   const [step, setStep] = useState<"upload" | "preview" | "done">("upload");
@@ -67,12 +67,12 @@ export default function ImportExercisesPage() {
 
   async function parseFile(file: File) {
     // Step 1: parse JSON — isolated so we can show a clear error
-    let arr: any[] = [];
+    let arr: Record<string, unknown>[] = [];
     try {
       const text = await file.text();
-      const json = JSON.parse(text);
-      arr = Array.isArray(json) ? json : [json];
-    } catch (e) {
+      const json = JSON.parse(text) as unknown;
+      arr = Array.isArray(json) ? (json as Record<string, unknown>[]) : [json as Record<string, unknown>];
+    } catch {
       toast.error("Arquivo JSON inválido — verifique a sintaxe do arquivo");
       return;
     }
@@ -83,7 +83,7 @@ export default function ImportExercisesPage() {
     let existingNames = new Set<string>();
     try {
       const existing = user ? await getUserExercises(user.uid) : [];
-      existingNames = new Set(existing.map((e: any) => e.name.toLowerCase()));
+      existingNames = new Set(existing.map(e => e.name.toLowerCase()));
     } catch (e) {
       console.warn("Could not fetch existing exercises:", e);
     }
@@ -93,7 +93,7 @@ export default function ImportExercisesPage() {
     const errors: ParseResult["errors"] = [];
     const duplicates: string[] = [];
 
-    arr.forEach((item: any, index: number) => {
+    arr.forEach((item, index: number) => {
       const result = ExerciseImportSchema.safeParse({
         name: item.name,
         category: item.category,
@@ -117,8 +117,8 @@ export default function ImportExercisesPage() {
       } else {
         errors.push({
           index,
-          name: item.name ?? `Item ${index + 1}`,
-          issues: result.error.issues.map((i: any) => i.message),
+          name: typeof item.name === 'string' ? item.name : `Item ${index + 1}`,
+          issues: result.error.issues.map(i => i.message),
         });
       }
     });
@@ -145,7 +145,7 @@ export default function ImportExercisesPage() {
     setImporting(true);
     try {
       const toImport = parseResult.valid.map((item) => {
-        const ex: Record<string, any> = {
+        const ex: Record<string, unknown> = {
           name: item.name,
           category: item.category,
           muscleGroup: item.muscleGroup ?? "",
@@ -167,12 +167,12 @@ export default function ImportExercisesPage() {
         if (item.restSeconds != null) ex.defaultRestSeconds = item.restSeconds;
         return ex;
       });
-      const count = await importExercises(user.uid, toImport as any, mode);
+      const count = await importExercises(user.uid, toImport as Parameters<typeof importExercises>[1], mode);
       setImportedCount(count);
       setStep("done");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Import error:", err);
-      toast.error(`Erro: ${err?.message ?? "Falha ao salvar no Firebase"}`);
+      toast.error(`Erro: ${err instanceof Error ? err.message : "Falha ao salvar no Firebase"}`);
     } finally {
       setImporting(false);
     }

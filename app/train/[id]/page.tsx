@@ -12,9 +12,8 @@ import { useTrainStore } from '@/store/trainStore';
 import { getWorkoutById } from '@/services/workouts';
 import { getUserExercises } from '@/services/exercises';
 import { saveSession } from '@/services/sessions';
-import { Workout } from '@/types';
+import { Workout, WorkoutSession } from '@/types';
 import { cn, formatDuration, getVideoEmbedUrl } from '@/lib/utils';
-import toast from 'react-hot-toast';
 import Link from 'next/link';
 
 function RestTimer({ timeLeft, total }: { timeLeft: number; total: number }) {
@@ -57,11 +56,10 @@ export default function TrainPage() {
   const [workout, setWorkout] = useState<Workout | null>(null);
   const [loading, setLoading] = useState(true);
   const [done, setDone] = useState(false);
-  const [finalSession, setFinalSession] = useState<any>(null);
+  const [finalSession, setFinalSession] = useState<WorkoutSession | null>(null);
   const [soundOn, setSoundOn] = useState(true);
   const [showVideo, setShowVideo] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const restAudioRef = useRef<HTMLAudioElement | null>(null);
   const savingRef = useRef(false);
 
   useEffect(() => {
@@ -80,6 +78,7 @@ export default function TrainPage() {
         setLoading(false);
       }
     })();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, user]);
 
   // Clock tick
@@ -93,6 +92,7 @@ export default function TrainPage() {
       if (isResting) tickRest();
     }, 1000);
     return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning, isResting, done]);
 
   // Check if session complete (only when all exercises are done, not on pause)
@@ -100,13 +100,14 @@ export default function TrainPage() {
     if (!isComplete || done || savingRef.current) return;
     savingRef.current = true;
     handleFinish();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isComplete]);
 
   async function handleFinish() {
     const finished = finishSession();
     if (!finished || !user) return;
     try {
-      await saveSession(user.uid, { ...finished, workout: undefined as any });
+      await saveSession(user.uid, { ...finished, workout: undefined });
       await refreshProfile();
     } catch {}
     setFinalSession(finished);

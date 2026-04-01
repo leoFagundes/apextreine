@@ -7,11 +7,17 @@ import { useAuth } from '@/store/AuthContext';
 import { doc, updateDoc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { deleteUser } from 'firebase/auth';
 import { db, auth } from '@/firebase/config';
-import { Bell, Shield, Globe, LogOut, Trash2, ChevronRight, Moon, Zap } from 'lucide-react';
+import { Bell, Shield, Globe, LogOut, Trash2, ChevronRight, Zap } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
-function SettingRow({ icon: Icon, label, desc, children }: any) {
+interface SettingRowProps {
+  icon: React.ElementType<{ size?: number; className?: string }>;
+  label: string;
+  desc?: string;
+  children?: React.ReactNode;
+}
+function SettingRow({ icon: Icon, label, desc, children }: SettingRowProps) {
   return (
     <div className="flex items-center justify-between py-4 border-b border-zinc-800 last:border-0">
       <div className="flex items-center gap-3">
