@@ -36,8 +36,8 @@ export default function RegisterPage() {
       await signUp(data.email, data.password, data.name);
       toast.success('Conta criada! Bem-vindo ao APEX 🔥');
       router.replace('/dashboard');
-    } catch (e: any) {
-      const msg = e.code === 'auth/email-already-in-use' ? 'Este email já está cadastrado' : 'Erro ao criar conta';
+    } catch (e: unknown) {
+      const msg = (e as { code?: string }).code === 'auth/email-already-in-use' ? 'Este email já está cadastrado' : 'Erro ao criar conta';
       toast.error(msg);
     }
   }

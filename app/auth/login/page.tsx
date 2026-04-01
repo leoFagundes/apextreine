@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, Zap, ChromeIcon } from 'lucide-react';
+import { Eye, EyeOff, Zap } from 'lucide-react';
 import { useAuth } from '@/store/AuthContext';
 import toast from 'react-hot-toast';
 
@@ -31,8 +31,8 @@ export default function LoginPage() {
     try {
       await signIn(data.email, data.password);
       router.replace('/dashboard');
-    } catch (e: any) {
-      const msg = e.code === 'auth/invalid-credential' ? 'Email ou senha incorretos' : 'Erro ao fazer login';
+    } catch (e: unknown) {
+      const msg = (e as { code?: string }).code === 'auth/invalid-credential' ? 'Email ou senha incorretos' : 'Erro ao fazer login';
       toast.error(msg);
     }
   }
