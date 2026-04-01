@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
 
 interface SettingRowProps {
-  icon: React.ElementType<{ size?: number; className?: string }>;
+  icon: React.ComponentType<{ size?: number | string; className?: string }>;
   label: string;
   desc?: string;
   children?: React.ReactNode;

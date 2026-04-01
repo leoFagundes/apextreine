@@ -17,7 +17,7 @@ import { format, subDays, isSameDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 interface StatCardProps {
-  icon: React.ElementType<{ size?: number; className?: string }>;
+  icon: React.ComponentType<{ size?: number | string; className?: string }>;
   label: string;
   value: string | number;
   sub?: string;
