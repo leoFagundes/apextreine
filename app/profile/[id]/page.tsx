@@ -8,7 +8,7 @@ import { ArrowLeft, UserPlus, UserCheck, Dumbbell, Flame, Zap } from 'lucide-rea
 import { useAuth } from '@/store/AuthContext';
 import { getUserProfile, followUser, unfollowUser } from '@/services/users';
 import { UserProfile } from '@/types';
-import { cn, getLevelFromXp, LEVEL_NAMES, GOAL_LABELS } from '@/lib/utils';
+import { cn, getLevelFromXp, LEVEL_NAMES } from '@/lib/utils';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 

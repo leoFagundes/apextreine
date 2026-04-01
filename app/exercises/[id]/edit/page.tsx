@@ -8,7 +8,6 @@ import { z } from 'zod';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
-import { useAuth } from '@/store/AuthContext';
 import { updateExercise } from '@/services/exercises';
 import { Equipment } from '@/types';
 import { doc, getDoc } from 'firebase/firestore';

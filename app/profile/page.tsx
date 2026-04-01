@@ -2,10 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '@/store/AuthContext';
-import { getUserSessions } from '@/services/sessions';
-import { WorkoutSession } from '@/types';
 import { motion } from 'framer-motion';
-import { Camera, Edit, Flame, Zap, Dumbbell, Clock, Trophy, Star, Save, X } from 'lucide-react';
+import { Camera, Edit, Flame, Zap, Dumbbell, Clock, Save, X } from 'lucide-react';
 import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { updateProfile } from 'firebase/auth';
@@ -30,7 +28,6 @@ const RARITY_COLORS: Record<string, string> = {
 
 export default function ProfilePage() {
   const { user, profile, refreshProfile } = useAuth();
-  const [sessions, setSessions] = useState<WorkoutSession[]>([]);
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({
     displayName: '', bio: '', age: '', height: '', weight: '',
@@ -39,11 +36,6 @@ export default function ProfilePage() {
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (!user) return;
-    getUserSessions(user.uid, 10).then(setSessions);
-  }, [user]);
 
   useEffect(() => {
     if (profile) {

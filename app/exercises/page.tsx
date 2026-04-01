@@ -8,14 +8,13 @@ import {
   Search,
   Upload,
   Dumbbell,
-  ChevronRight,
   Trash2,
   Edit,
 } from "lucide-react";
 import { useAuth } from "@/store/AuthContext";
 import { getUserExercises, deleteExercise } from "@/services/exercises";
-import { Exercise, ExerciseCategory } from "@/types";
-import { cn, EXERCISE_CATEGORIES } from "@/lib/utils";
+import { Exercise } from "@/types";
+import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
 
 const CATEGORY_COLORS: Record<string, string> = {
@@ -224,7 +223,7 @@ export default function ExercisesPage() {
         </div>
       ) : (
         <div className="flex flex-wrap gap-6">
-          {filtered.map((exercise, i) => (
+          {filtered.map((exercise) => (
             <ExerciseCard
               key={exercise.id}
               exercise={exercise}
